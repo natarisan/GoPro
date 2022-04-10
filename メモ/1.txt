@@ -1,0 +1,61 @@
+【インターフェース】
+package main
+
+import "fmt"
+
+type Human interface { //これはまだ実装されてないメソッド
+	Say() string //メソッド名　返り値
+}
+
+type Person struct {
+	Name string
+}
+
+func (p *Person) Say() string{
+    p.Name = "Mr." + p.Name
+	return p.Name
+}
+
+func DriveCar(human Human) {
+	if human.Say() == "Mr.mike" {
+		fmt.Println("ok!")
+	} else {
+		fmt.Println("出て行け")
+	}
+}
+
+func main() {
+	var mike Human = &Person{"mike"}
+	DriveCar(mike)
+
+}
+
+【タイプアサーションとswitch type文】
+package main
+
+import "fmt"
+
+func do(i interface{}) { //どんなものでも引数にとれる。
+	//ii := i.(int) //タイプアサーション interface型→int型へ
+	
+	switch v := i.(type) {
+	case int:
+		fmt.Println(v * 2)
+	case string:
+		fmt.Println(v + "!")
+	default:
+		fmt.Println("i dont know", v)
+	}
+}
+
+func main() {
+	do(10)
+	do("Mike")
+	do(true)
+}
+
+【Stringer()】
+これを実装することで、structの表示のさせ方を変えることができるのだ！！！
+
+【カスタムエラー】
+Error()メソッドを実行するときに、エラーをカスタマイズできる。

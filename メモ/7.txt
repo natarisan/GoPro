@@ -1,0 +1,86 @@
+import(
+    "fmt"
+    "net/http"
+    "log"
+)
+
+func greet(w http.ResponseWriter, r *http.Request){
+    fmt.Fprint(w, "Hello, World!!")
+}
+
+func main() {
+    //defune routes
+    http.HandleFunc("/greet", greet)
+
+    //starting server
+    log.Fatal(http.ListenAndServe("localhost:8000", nil)) //address, if the server has own multiplexer
+}
+
+【text to json  how to add headers to data】
+import(
+    "net/http"
+    "log"
+    "encoding/json"
+)
+
+type Customer struct{
+    Name    string `json:"full_name"`
+    City    string `json:"city"`
+    Zipcode string `json:"zip_code"`
+}
+
+func getAllCustomers(w http.ResponseWriter, r *http.Request){
+    customers := []Customer{
+        {"Ashish", "New Delhi", "110075"},
+        {"Rob", "New Delhi", "110075"},
+    }
+    w.Header().Add("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(customers)
+}
+
+func main() {
+    //defune routes
+    http.HandleFunc("/customers", getAllCustomers)
+
+    //starting server
+    log.Fatal(http.ListenAndServe("localhost:8000", nil)) //address, if the server has own multiplexer
+}
+
+【json/xmlフォーマットのプログラミング】
+
+import(
+    "net/http"
+    "log"
+    "encoding/xml"
+    "encoding/json"
+)
+
+type Customer struct{
+    Name    string `json:"full_name" xml:"name"`
+    City    string `json:"city" xml:"city"`
+    Zipcode string `json:"zip_code" xml:"zipcode"`
+}
+
+func getAllCustomers(w http.ResponseWriter, r *http.Request){
+    customers := []Customer{
+        {"Ashish", "New Delhi", "110075"},
+        {"Rob", "New Delhi", "110075"},
+    }
+
+    if r.Header.Get("Content-Type") == "application/xml" {
+        w.Header().Add("Content-Type", "application/xml")
+        xml.NewEncoder(w).Encode(customers)
+    } else {
+        w.Header().Add("Content-Type", "application/json")
+        json.NewEncoder(w).Encode(customers)
+    }
+    
+}
+
+func main() {
+    //defune routes
+    http.HandleFunc("/customers", getAllCustomers)
+
+    //starting server
+    log.Fatal(http.ListenAndServe("localhost:8000", nil)) //address, if the server has own multiplexer
+}

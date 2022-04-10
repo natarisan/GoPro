@@ -1,0 +1,30 @@
+【PrivateとPublic】
+ストラクト名、メソッド名全てにおいて、大文字はパブリック、小文字はプライベート
+
+【テスト】
+同じ階層のフォルダにファイル名_test.goとする。
+go test ./... -v をターミナルで実行
+「ginko」などのテスティングフレームワークなどを使っても良い。
+
+package mylib
+
+import "testing"
+
+var Debug bool = true
+func TestAverage(t *testing.T) {//Testメソッド名（t *testing.T)
+	if Debug {
+		t.Skip("めんどくせぇからスキップするわ（笑）")
+	}
+	v := Average([]int{1,2,3,4,5})
+	if v != 3 {
+		t.Error("Expected 3, got", v)
+	}
+}
+
+【gofmt】
+ターミナルで gofmt -w goファル名で自動で修正してくれる
+
+【その他】
+インポートしたライブラリの名前を変える
+import 名前 パッケージ
+名前.メソッド名

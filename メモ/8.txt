@@ -1,0 +1,46 @@
+【hexagonal architecture】
+DDDの設計思想の一つ。
+
+【error handling①】
+1. The URL should only accept numeric ids.
+2. API should return customer as a JSON object.
+【error handling②】
+3. In case the customer id does not exist, API should http status code 404(Not Found)
+4. In case of an unexpected error, API should return status code 500(Internal Server Error)
+along with the error message.
+【error handling③】
+5. Return error message in the same format.
+
+【Create new bank account criteria】
+①A new account can only be opened with a minimum deposit of 5000
+②Account can only be of saving or checking type.
+③In case of an unexpected error, API should return status code 500
+(Internal server error) along with the error message.
+④The API should return the new account id, when the new account is opened with
+the status code 201(CREATED).
+
+【Acceptance Criteria】
+①transaction can only be "withdrawal" or "deposit"
+②amount cannot be negative
+③respone should have withdrawal amount, updated balance, transaction id
+④error handling should be done for bad request, validation and unexpected
+  errors from the server side and should return the appropriate http status code with message.
+
+【Security】
+①Login request to auth server
+②auth server return the toke to the client if request is valid.
+③Client send the request along with the token in the request header.
+④The response server will verify token and request.
+⑤Auth server will return token verification response
+⑥Response Server will return the response to the user.
+
+Routes
+admin can do all
+get all customers  GET /customer
+get customer by ID GET /customer/{customer_id}
+create new account POST /customer/{customer_id}/account
+make a transaction POST /customer/{customer_id}/account/{account_id}
+
+user role can do
+get customer by ID GET /customer/{customer_id}
+make a transaction POST /customer/{customer_id}/account/{account_id}
