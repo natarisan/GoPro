@@ -2,7 +2,7 @@ package main
 
 import(
     "GOP/app"
-    "GOP/logger"
+    "github.com/natarisan/gop-libs/logger"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package service
 
 import(
 	"GOP/dto"
-	"GOP/errs"
+	"github.com/natarisan/gop-libs/errs"
 	"GOP/domain"
 	"time"
 )

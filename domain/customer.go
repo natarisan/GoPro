@@ -1,6 +1,6 @@
 package domain
 
-import ("GOP/errs"
+import ("github.com/natarisan/gop-libs/errs"
 		"GOP/dto"
 )
 

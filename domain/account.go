@@ -2,7 +2,7 @@ package domain
 
 import(
 	"GOP/dto"
-	"GOP/errs"
+	"github.com/natarisan/gop-libs/errs"
 )
 
 type Account struct{

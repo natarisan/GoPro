@@ -1,10 +1,11 @@
 package service
 
 import ("GOP/domain"
-		"GOP/errs"
+		"github.com/natarisan/gop-libs/errs"
 		"GOP/dto"
 )
 
+//go:generate mockgen -destination=../mocks/service/mockCustomerService.go -package=service GOP/service CustomerService
 type CustomerService interface {
 	GetAllCustomer(string) ([]dto.CustomerResponse, *errs.AppError)
 	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)

@@ -3,8 +3,8 @@ package domain
 import(
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"GOP/errs"
-	"GOP/logger"
+	"github.com/natarisan/gop-libs/errs"
+	"github.com/natarisan/gop-libs/logger"
 	"github.com/jmoiron/sqlx"
 )
 

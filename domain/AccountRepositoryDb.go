@@ -1,8 +1,8 @@
 package domain
 
 import ("github.com/jmoiron/sqlx"
-		"GOP/logger"
-		"GOP/errs"
+		"github.com/natarisan/gop-libs/logger"
+		"github.com/natarisan/gop-libs/errs"
 		"strconv"
 )
 

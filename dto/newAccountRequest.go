@@ -2,7 +2,7 @@ package dto
 
 import(
 	"strings"
-	"GOP/errs"
+	"github.com/natarisan/gop-libs/errs"
 )
 
 type NewAccountRequest struct {
