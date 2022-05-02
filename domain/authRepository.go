@@ -23,12 +23,12 @@ func (r RemoteAuthRepository) IsAuthorized(token string, routeName string, vars 
 		fmt.Println("Error while sending..." + err.Error())
 		return false
 	} else {
-		m := map[string]bool{}
+		m := map[int]bool{}
 		if err = json.NewDecoder(response.Body).Decode(&m); err != nil {
 			logger.Error("サーバーからのレスポンスをデコードしているときにエラー:" + err.Error())
 			return false
 		}
-		return m["IsAuthorized"]
+		return m[1000]
 	}
 }
 
