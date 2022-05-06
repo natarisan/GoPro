@@ -73,3 +73,6 @@ CREATE TABLE `refresh_token_store` (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`refresh_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+create table filePaths(
+    id int, customer_id int, number int, filePath varchar(100), primary key(id), unique key(filePath))engine=InnoDB default charset=latin1;

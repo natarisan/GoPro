@@ -34,7 +34,7 @@ func (r RemoteAuthRepository) IsAuthorized(token string, routeName string, vars 
 
 //URLを作成する
 func buildVerifyURL(token string, routeName string, vars map[string]string) string{
-    u := url.URL{Host: "localhost:6000", Path: "/auth/verify", Scheme: "http"}
+    u := url.URL{Host: "localhost:6001", Path: "/auth/verify", Scheme: "http"}
 	q := u.Query()
 	q.Add("token", token)
 	q.Add("routeName", routeName)
