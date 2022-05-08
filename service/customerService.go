@@ -5,10 +5,10 @@ import ("GOP/domain"
 		"GOP/dto"
 )
 
-//go:generate mockgen -destination=../mocks/service/mockCustomerService.go -package=service GOP/service CustomerService
 type CustomerService interface {
 	GetAllCustomer(string) ([]dto.CustomerResponse, *errs.AppError)
 	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)
+	PostImage(dto.PostImageRequest) *errs.AppError
 }
 
 type DefaultCustomerService struct{
@@ -41,6 +41,14 @@ func(s DefaultCustomerService) GetCustomer(id string) (*dto.CustomerResponse, *e
 	}
 	response := c.ToDto()
 	return &response, nil
+}
+
+func(s DefaultCustomerService) PostImage(req dto.PostImageRequest) *errs.AppError {
+	appErr := s.repo.PostImage(req)
+	if appErr != nil {
+		return appErr
+	}
+	return nil
 }
 
 func NewCustomerService(repository domain.CustomerRepository) DefaultCustomerService{

@@ -30,7 +30,6 @@ func(h AccountHandler) newAccount(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-//まずはgetリクエストのURLから値を抽出
 func(h AccountHandler)MakeTransaction(w http.ResponseWriter, r *http.Request){
 	vars := mux.Vars(r)
 	accountId := vars["account_id"]

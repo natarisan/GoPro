@@ -41,10 +41,10 @@ func Start(){
 	
     router.HandleFunc("/customers", ch.getAllCustomers).Methods(http.MethodGet).Name("GetAllCustomers")
 	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.getCustomer).Methods(http.MethodGet).Name("GetCustomer")
+	router.HandleFunc("/post-image", ch.postImage).Methods(http.MethodPost).Name("PostImage")
 	router.HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.newAccount).Methods(http.MethodPost).Name("NewAccount")
 	router.HandleFunc("/customers/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", ah.MakeTransaction).Methods(http.MethodPost).Name("NewTransaction")
-	// /customers/files(GET)
-	// /customers/files(POST) リクエストボディにカスタマーIDを入れる
+	// /get-Images/customer_id(GET)
 	am := AuthMiddleware{domain.NewAuthRepository()}
 	router.Use(am.authorizationHandler())
 

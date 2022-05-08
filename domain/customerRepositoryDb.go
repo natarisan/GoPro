@@ -2,6 +2,9 @@ package domain
 
 import(
 	"database/sql"
+	"os"
+	"GOP/dto"
+	"encoding/base64"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/natarisan/gop-libs/errs"
 	"github.com/natarisan/gop-libs/logger"
@@ -47,6 +50,22 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError){
 		}
 	}
 	return &c, nil
+}
+
+func(d CustomerRepositoryDb) PostImage(req dto.PostImageRequest) *errs.AppError {
+	//フォルダ作成
+	customer_id := req.CustomerId
+	if err := os.Mkdir("./images/" + customer_id, 0777); err != nil {
+		return errs.NewUnexpectedError("Unexpected mkdir error")
+	}
+	//画像デコード
+	base64Image := req.Image
+	data, _ := base64.StdEncoding.DecodeString(base64Image)
+	file, _ := os.Create(customer_id + ".jpg")
+	defer file.Close()
+	//画像保存
+	file.Write(data)
+	return nil
 }
 
 func NewCustomerRepositoryDb(dbClient *sqlx.DB) CustomerRepositoryDb{

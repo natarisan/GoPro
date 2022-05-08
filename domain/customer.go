@@ -37,4 +37,5 @@ func (c Customer) ToDto() dto.CustomerResponse{
 type CustomerRepository interface {
 	FindAll(status string) ([]Customer, *errs.AppError)
 	ById(string) (*Customer, *errs.AppError)
+	PostImage(dto.PostImageRequest) *errs.AppError
 }
