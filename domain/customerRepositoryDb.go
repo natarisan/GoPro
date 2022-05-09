@@ -53,15 +53,23 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError){
 }
 
 func(d CustomerRepositoryDb) PostImage(req dto.PostImageRequest) *errs.AppError {
-	//フォルダ作成
-	customer_id := req.CustomerId
-	if err := os.Mkdir("./images/" + customer_id, 0777); err != nil {
-		return errs.NewUnexpectedError("Unexpected mkdir error")
+	customer_id := req.CustomerId + "a"
+	//フォルダ存在確認　フォルダ作成
+	_, er := os.Stat(customer_id)
+	if er != nil {
+		if os.IsNotExist(er) {
+			if err := os.Mkdir(customer_id, 0777); err != nil {
+				return errs.NewUnexpectedError("Unexpected mkdir error" + err.Error())
+			}
+		}
 	}
 	//画像デコード
 	base64Image := req.Image
 	data, _ := base64.StdEncoding.DecodeString(base64Image)
-	file, _ := os.Create(customer_id + ".jpg")
+	file, err2 := os.Create("./" + customer_id + "/" + customer_id + ".jpg")
+	if err2 != nil {
+		return errs.NewUnexpectedError("Unexpected create image error" + err2.Error())
+	}
 	defer file.Close()
 	//画像保存
 	file.Write(data)
