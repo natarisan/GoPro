@@ -4,6 +4,8 @@ import(
 	"database/sql"
 	"os"
 	"GOP/dto"
+	"io/ioutil"
+	"strconv"
 	"encoding/base64"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/natarisan/gop-libs/errs"
@@ -53,7 +55,7 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError){
 }
 
 func(d CustomerRepositoryDb) PostImage(req dto.PostImageRequest) *errs.AppError {
-	customer_id := req.CustomerId + "a"
+	customer_id := req.CustomerId
 	//フォルダ存在確認　フォルダ作成
 	_, er := os.Stat(customer_id)
 	if er != nil {
@@ -63,10 +65,16 @@ func(d CustomerRepositoryDb) PostImage(req dto.PostImageRequest) *errs.AppError 
 			}
 		}
 	}
+	files, _ := ioutil.ReadDir(customer_id)
+	fileCount := len(files) + 1
+	if fileCount > 9 {
+		return errs.NewUnexpectedError("A lot of images in your folder.")
+	}
+	strCount := strconv.Itoa(fileCount)
 	//画像デコード
 	base64Image := req.Image
 	data, _ := base64.StdEncoding.DecodeString(base64Image)
-	file, err2 := os.Create("./" + customer_id + "/" + customer_id + ".jpg")
+	file, err2 := os.Create("./" + customer_id + "/" + customer_id + strCount + ".jpg")
 	if err2 != nil {
 		return errs.NewUnexpectedError("Unexpected create image error" + err2.Error())
 	}

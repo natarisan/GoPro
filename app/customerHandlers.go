@@ -38,14 +38,10 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request){
 }
 
 func (ch *CustomerHandlers) postImage(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-    customerId := vars["customer_id"]
 
     var request dto.PostImageRequest
     if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
         writeResponse(w, http.StatusBadRequest, err.Error())
-    } else {
-        request.CustomerId = customerId
     }
 
     appError := ch.service.PostImage(request)
