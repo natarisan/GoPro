@@ -37,6 +37,15 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request){
     }
 }
 
+func (ch *CustomerHandlers) getImages(w http.ResponseWriter, r *http.Request) {
+    images, appError := ch.service.GetImages()
+    if appError != nil {
+        writeResponse(w, appError.Code, appError.AsMessage())
+    } else {
+        writeResponse(w, http.StatusOK, images)
+    }
+}
+
 func (ch *CustomerHandlers) postImage(w http.ResponseWriter, r *http.Request) {
 
     var request dto.PostImageRequest

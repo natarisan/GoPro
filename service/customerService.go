@@ -8,6 +8,7 @@ import ("GOP/domain"
 type CustomerService interface {
 	GetAllCustomer(string) ([]dto.CustomerResponse, *errs.AppError)
 	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)
+	GetImages() ([]string, *errs.AppError)
 	PostImage(dto.PostImageRequest) *errs.AppError
 }
 
@@ -41,6 +42,15 @@ func(s DefaultCustomerService) GetCustomer(id string) (*dto.CustomerResponse, *e
 	}
 	response := c.ToDto()
 	return &response, nil
+}
+
+func(s DefaultCustomerService) GetImages() ([]string, *errs.AppError) {
+	var images []string
+	images, err := s.repo.GetImages()
+	if err != nil {
+		return nil, err
+	}
+	return images, nil
 }
 
 func(s DefaultCustomerService) PostImage(req dto.PostImageRequest) *errs.AppError {
