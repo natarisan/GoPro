@@ -38,7 +38,9 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request){
 }
 
 func (ch *CustomerHandlers) getImages(w http.ResponseWriter, r *http.Request) {
-    images, appError := ch.service.GetImages()
+    vars := mux.Vars(r)
+	customerId := vars["customer_id"]
+    images, appError := ch.service.GetImages(customerId)
     if appError != nil {
         writeResponse(w, appError.Code, appError.AsMessage())
     } else {

@@ -13,7 +13,7 @@ type Customer struct {
 	Status      string
 }
 
-func(c Customer) statusAsText() string{
+func(c Customer) statusAsText() string {
 	statusAsText := "active"
 	if c.Status == "0" {
 		statusAsText = "inactive"
@@ -21,9 +21,7 @@ func(c Customer) statusAsText() string{
 	return statusAsText
 }
 
-//Customer構造体は、このメソッドを持つ。
-func (c Customer) ToDto() dto.CustomerResponse{
-	
+func (c Customer) ToDto() dto.CustomerResponse {
 	return dto.CustomerResponse{
 		Id: c.Id,
 		Name: c.Name,
@@ -37,5 +35,6 @@ func (c Customer) ToDto() dto.CustomerResponse{
 type CustomerRepository interface {
 	FindAll(status string) ([]Customer, *errs.AppError)
 	ById(string) (*Customer, *errs.AppError)
+	GetImages(string) ([]string, *errs.AppError)
 	PostImage(dto.PostImageRequest) *errs.AppError
 }

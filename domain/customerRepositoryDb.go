@@ -54,6 +54,30 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError){
 	return &c, nil
 }
 
+func(d CustomerRepositoryDb) GetImages(customerId string) ([]string, *errs.AppError) {
+	customer_id := customerId
+	var base64ImageCodes []string
+	var fileNames []string
+	for i := 1; i < 10; i++ {
+		fileName := customer_id + strconv.Itoa(i)
+		fileNames = append(fileNames, fileName)
+	}
+	
+	for _, file := range fileNames {
+		//画像base64エンコード
+		fi, _ := os.Open(file)
+		defer fi.Close()
+		f, _ := fi.Stat()
+		size := f.Size()
+
+		data := make([]byte, size)
+		fi.Read(data)
+		encodedImage := base64.StdEncoding.EncodeToString(data)
+		base64ImageCodes = append(base64ImageCodes, encodedImage)
+	}
+	return base64ImageCodes, nil
+}
+
 func(d CustomerRepositoryDb) PostImage(req dto.PostImageRequest) *errs.AppError {
 	customer_id := req.CustomerId
 	//フォルダ存在確認　フォルダ作成
