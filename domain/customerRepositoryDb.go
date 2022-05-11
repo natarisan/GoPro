@@ -58,14 +58,19 @@ func(d CustomerRepositoryDb) GetImages(customerId string) ([]string, *errs.AppEr
 	customer_id := customerId
 	var base64ImageCodes []string
 	var fileNames []string
-	for i := 1; i < 10; i++ {
-		fileName := customer_id + strconv.Itoa(i)
+	fileCounter, _ := ioutil.ReadDir(customer_id)
+	fileCount := len(fileCounter) + 1
+	for i := 1; i < fileCount; i++ {
+		fileName := customer_id + strconv.Itoa(i) + ".jpg"
 		fileNames = append(fileNames, fileName)
 	}
-	
+
 	for _, file := range fileNames {
 		//画像base64エンコード
-		fi, _ := os.Open(file)
+		fi, err := os.Open("./" + customer_id + "/" + file)
+		if err != nil {
+			return nil, errs.NewUnexpectedError("Unexpected getFile error" + err.Error())
+		}
 		defer fi.Close()
 		f, _ := fi.Stat()
 		size := f.Size()
